@@ -1,6 +1,7 @@
 import requests
 import json
 from decouple import config
+import time
 
 password = config("ERIKSON_PASSWORD")
 username = config("ERIKSON_USER")
@@ -85,13 +86,16 @@ def get_data(ip):
         )
 
         resp = response.json()["get_wwan_radio_info3"]
-        yield (
+        rsrp = (
             resp["nr_srv_cell_rsrp_0"],
             resp["nr_srv_cell_rsrp_1"],
             resp["nr_srv_cell_rsrp_2"],
             resp["nr_srv_cell_rsrp_3"],
         )
+        rsrq = resp["nr_srv_cell_rsrq"]
+        snr = resp["nr_snr"]
+        yield rsrp, rsrq, snr
 
 
-for i in get_data("192.168.1.1"):
-    print(i)
+for rsrp, rsrq, snr in get_data("192.168.1.1"):
+    print(f"RSRP: {rsrp}, RSRQ: {rsrq}, SNR: {snr}")

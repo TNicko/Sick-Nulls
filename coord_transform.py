@@ -10,7 +10,6 @@ agv_coords = np.array([[10, 20], [20, 30], [30, 40]])
 differences = agv_coords - beacon_coords
 
 translation = np.mean(differences, axis=0)
-print(translation)
 
 
 def transform_beacon_to_agv(beacon_point, translation):

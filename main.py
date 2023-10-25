@@ -125,7 +125,7 @@ def main():
         url = "http://172.16.0.242:32500/api/driveRotate"
         headers = {
             "accept": "application/json",
-            "authorization": "Basic cmFzcGk6c2VjcmV0UGFzc3dvcmQ=",
+            "authorization": config("AGV_API_AUTH"),
             "Content-Type": "application/json",
         }
 
@@ -136,7 +136,7 @@ def main():
             "speedRadianPerSecond": 0.02,
         }
 
-        theta_rad = angle_radians
+        theta_rad = 0.5 * math.pi
         for i in range(10):
             set_position(transformed_beacon_coords[0], theta_rad)
             sleep(5)
@@ -155,8 +155,8 @@ def main():
             if matching_rate >= 90:
                 break
 
-            theta_rad = angle_radians + 0.2 * math.pi
-            print(theta_rad)
+            # theta_rad = angle_radians + 0.2 * math.pi
+            # print(theta_rad)
             sleep(5)
 
     while True:

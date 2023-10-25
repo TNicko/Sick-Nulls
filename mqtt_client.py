@@ -56,13 +56,8 @@ class MQTTSubscriber:
         self.client.subscribe(topic)
 
 
-    # def threaded_loop(self):
-
-
-
-
-#if __name__ == "__main__":
-#    subscriber = MQTTSubscriber("128.140.111.159", username="rabbitmq", password="rabbitmq")
-#    subscriber.connect_and_subscribe_to_topic("uagv/2/safelog/AGVS303:S/state")
-#    subscriber.client.loop_forever()
-#    subscriber.client.disconnect()
+if __name__ == "__main__":
+   subscriber = MQTTSubscriber("128.140.111.159", username="rabbitmq", password="rabbitmq")
+   subscriber.connect_and_subscribe_to_topic("uagv/2/safelog/AGVS303:S/state")
+   subscriber.client.loop_forever()
+   subscriber.client.disconnect()

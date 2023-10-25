@@ -15,7 +15,7 @@ headers = {
 payload = {
     "llsX": 15.0,
     "llsY": 5.0,
-    "llsTheta": 0.0,
+    "llsTheta": 0.0,  # radians
     "deviationRadius": 0.3,
     "map": "SickHackathon_20231023.vmap",
 }

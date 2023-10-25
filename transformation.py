@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
+import pickle
 
 # Historical data points
 beacon_coords = np.array(
@@ -17,6 +18,13 @@ agv_test_coord = np.array([[5.008, 2.998], [5.034, 6.991], [5.008, 3.002]])
 # Fit the model with the historical data
 model = LinearRegression().fit(beacon_coords, agv_coords)
 
+
+def save_model(model):
+    filename = "model/linear_regression_model.sav"
+    pickle.dump(model, open(filename, "wb"))
+
+
+save_model(model)
 # Coefficients and intercept from the model
 coef = model.coef_
 intercept = model.intercept_

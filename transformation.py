@@ -3,8 +3,16 @@ from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
 
 # Historical data points
-beacon_coords = np.array([[6, 10], [13, 19], [24, 30]])
-agv_coords = np.array([[10, 20], [20, 30], [30, 40]])
+beacon_coords = np.array(
+    [[52.47, -6.98], [52.68, -3.53], [48.67, -6.98], [52.68, -7.97]]
+)
+agv_coords = np.array(
+    [[5.94, 3.67], [9.31, 3.41], [5.02, 7.00], [5.008, 2.998]]
+)
+
+# Test points
+beacon_test_coord = np.array([[52.68, -7.97], [48.66, -7.03], [52.64, -8.1]])
+agv_test_coord = np.array([[5.008, 2.998], [5.034, 6.991], [5.008, 3.002]])
 
 # Fit the model with the historical data
 model = LinearRegression().fit(beacon_coords, agv_coords)
@@ -13,26 +21,29 @@ model = LinearRegression().fit(beacon_coords, agv_coords)
 coef = model.coef_
 intercept = model.intercept_
 
-print("Transformation components:")
-print("Coefficients:", coef)
-print("Intercept:", intercept)
+# print("Transformation components:")
+# print("Coefficients:", coef)
+# print("Intercept:", intercept)
 
-# New single coordinate from the beacon system
-new_beacon_coord = np.array([15, 23])
+# Calculate the transformed coordinates of the beacons based on the model
+transformed_beacon_coords = model.predict(beacon_coords)
 
-transformed_coord = model.predict([new_beacon_coord])[0]
-
+# PREDICTION
+predicted_coord = model.predict(beacon_test_coord)
+print(predicted_coord)
 
 # Create a plot to visualize the points and transformation.
 plt.figure(figsize=(10, 8))
-plt.plot(
-    beacon_coords[:, 0],
-    beacon_coords[:, 1],
-    marker="o",
-    linestyle="-",
-    color="blue",
-    label="Path of Beacon",
-)
+
+# Plotting the original paths of the beacon and the AGV
+# plt.plot(
+# beacon_coords[:, 0],
+# beacon_coords[:, 1],
+# marker="o",
+# linestyle="-",
+# color="blue",
+# label="Path of Beacon",
+# )
 plt.plot(
     agv_coords[:, 0],
     agv_coords[:, 1],
@@ -42,25 +53,39 @@ plt.plot(
     label="Path of AGV",
 )
 
-# Plot the new beacon coordinate and its transformed counterpart as individual points.
-plt.scatter(
-    new_beacon_coord[0],
-    new_beacon_coord[1],
-    c="green",
-    label="New Beacon Coord",
+# Plotting the transformed path of the beacon based on the AGV's coordinate system
+plt.plot(
+    transformed_beacon_coords[:, 0],
+    transformed_beacon_coords[:, 1],
+    marker="*",
+    linestyle="-",
+    color="green",
+    label="Transformed Path of Beacon",
+    alpha=0.6,
 )
 plt.scatter(
-    transformed_coord[0],
-    transformed_coord[1],
+    predicted_coord[:, 0],
+    predicted_coord[:, 1],
     c="purple",
-    label="Transformed Coord in AGV system",
+    marker="o",
+    s=100,
+    label="Predicted point",
+)
+plt.scatter(
+    agv_test_coord[:, 0],
+    agv_test_coord[:, 1],
+    c="pink",
+    marker="o",
+    s=100,
+    label="Actual point",
 )
 
-# Enhance the plot with appropriate titles and labels.
+
+# Enhance the plot with appropriate titles, labels, and legend.
 plt.title("Transformation of Coordinates")
 plt.xlabel("X Coordinate")
 plt.ylabel("Y Coordinate")
-plt.legend(loc="upper left")
+plt.legend(loc="upper right")
 
 # Display the plot.
 plt.show()

@@ -1,6 +1,5 @@
 import pickle
 import numpy as np
-from sklearn.linear_model import LinearRegression
 import threading
 from time import sleep
 from mqtt_client import MQTTSubscriber
@@ -11,6 +10,7 @@ import requests
 from data_collector import initialize_coordinates_file
 from typing import Tuple
 from urllib3.exceptions import InsecureRequestWarning
+from sklearn.linear_model import LinearRegression
 
 
 def sick_beacon_coordinates() -> Tuple[float, float]:
@@ -30,6 +30,7 @@ def sick_beacon_coordinates() -> Tuple[float, float]:
         headers=headers,
         verify=False,
     )
+    print(response.status_code)
     coordinates = response.json()["positions"][0]["position"]
     return (coordinates["x"], coordinates["y"])
 
@@ -69,8 +70,8 @@ def set_position(coords, theta):
         "llsX": coords[0],
         "llsY": coords[1],
         "llsTheta": theta,  # radians
-        "deviationRadius": 0.3,
-        "map": "SickHackathon_20231023.vmap",
+        "deviationRadius": 0.7,
+        "map": "Hackathon_20231025.vmap",
     }
 
     # Make the POST request
@@ -116,24 +117,47 @@ def main():
         agv_position = json_data["agvPosition"]
         x = agv_position["x"]
         y = agv_position["y"]
-        theta_rad = agv_position["theta"]
-        print(f"Initial theta: {theta_rad}")
         print(f"AGV coords: ", agv_position)
         theta_deg = math.degrees(theta_rad)
         agv_coords = (x, y)
 
-        for i in range(4):
-            set_position(beacon_coords, theta_rad)
+        theta_rad = 0.0
+        url = "http://172.16.0.242:32500/api/driveRotate"
+        headers = {
+            "accept": "application/json",
+            "authorization": "Basic cmFzcGk6c2VjcmV0UGFzc3dvcmQ=",
+            "Content-Type": "application/json",
+        }
+
+        angle_radians = 0.2 * math.pi
+        data = {
+            "rotationDirection": "clockwise",
+            "angleRadians": angle_radians,
+            "speedRadianPerSecond": 0.02,
+        }
+
+        theta_rad = angle_radians
+        for i in range(10):
+            set_position(transformed_beacon_coords[0], theta_rad)
+            sleep(5)
+            print(f"Beacon Coordinates: {transformed_beacon_coords}")
+            response = requests.post(url, headers=headers, json=data)
+            if response.status_code == 200:
+                print("Request was successful!")
+                # print("Response:", response.json())
+            else:
+                print(
+                    f"Request failed with status code {response.status_code}:"
+                )
+                print(response.text)
             matching_rate = get_matching_rate()
             print(f"Theta: {theta_rad} Matching rate: {matching_rate}")
             if matching_rate >= 90:
                 break
 
-            theta_rad += 0.5 * math.pi
-            if theta_rad > 2 * math.pi:
-                theta_rad -= 2 * math.pi
-
-            sleep(3)
+            theta_rad = angle_radians + 0.2 * math.pi
+            print(theta_rad)
+            sleep(5)
 
     while True:
         if len(subscriber.data) > 0:

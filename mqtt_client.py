@@ -40,8 +40,6 @@ class MQTTSubscriber:
 
     def on_message(self, client, userdata, message):
         self.data.append(message.payload.decode())
-        print(len(self.data))
-        # print(f"Received message '{message.payload.decode()}' on topic '{message.topic}'")
 
     def on_disconnect(self, client, userdata, rc):
         if rc != 0:

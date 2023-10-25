@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 from collections import deque
+import threading
 
 
 class MQTTSubscriber:
@@ -41,8 +42,6 @@ class MQTTSubscriber:
 
     def on_message(self, client, userdata, message):
         self.data.append(message.payload.decode())
-        print(len(self.data))
-        # print(f"Received message '{message.payload.decode()}' on topic '{message.topic}'")
 
 
     def on_disconnect(self, client, userdata, rc):
@@ -57,8 +56,13 @@ class MQTTSubscriber:
         self.client.subscribe(topic)
 
 
-if __name__ == "__main__":
-    subscriber = MQTTSubscriber("128.140.111.159", username="rabbitmq", password="rabbitmq")
-    subscriber.connect_and_subscribe_to_topic("uagv/2/safelog/AGVS303:S/state")
-    subscriber.client.loop_forever()
-    subscriber.client.disconnect()
+    # def threaded_loop(self):
+
+
+
+
+#if __name__ == "__main__":
+#    subscriber = MQTTSubscriber("128.140.111.159", username="rabbitmq", password="rabbitmq")
+#    subscriber.connect_and_subscribe_to_topic("uagv/2/safelog/AGVS303:S/state")
+#    subscriber.client.loop_forever()
+#    subscriber.client.disconnect()

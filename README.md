@@ -1,6 +1,6 @@
 # AGV Localization - SICK Hackathon Project
 
-This repository hosts the code for our AGV (Automated Guided Vehicles) Localization solution, developed during the [SICK Hackathon](https://www.sick.com/) on October 24-26. Our approach enhances AGV navigation by ensuring precise location tracking and orientation awareness.
+This repository hosts the code for our AGV (Automated Guided Vehicles) Localization solution, developed during the [SICK](https://www.sick.com/) Hackathon on October 24-26. Our approach enhances AGV navigation by ensuring precise location tracking and orientation awareness.
 
 ## Overview
 

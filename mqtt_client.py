@@ -2,6 +2,11 @@ import paho.mqtt.client as mqtt
 from collections import deque
 from decouple import config
 
+MQTT_BROKER = config("MQTT_BROKER")
+MQTT_TOPIC = config("MQTT_TOPIC")
+MQTT_USER = config("MQTT_USER")
+MQTT_PASS = config("MQTT_PASSWORD")
+
 
 class MQTTSubscriber:
     def __init__(
@@ -52,24 +57,24 @@ class MQTTSubscriber:
         self.client.subscribe(topic)
 
 
-def initialize_mqtt_subscriber(
-    broker: str, topic: str, username: str, password: str
-) -> MQTTSubscriber:
+def initialize_mqtt_subscriber() -> MQTTSubscriber:
     """
     Initialize and start the MQTT subscriber.
     """
-    subscriber = MQTTSubscriber(broker, username=username, password=password)
-    subscriber.connect_and_subscribe_to_topic(topic)
+    subscriber = MQTTSubscriber(
+        MQTT_BROKER, username=MQTT_USER, password=MQTT_PASS
+    )
+    subscriber.connect_and_subscribe_to_topic(MQTT_TOPIC)
     print("MQTT subscriber connected.")
     return subscriber
 
 
 if __name__ == "__main__":
-    subscriber = MQTTSubscriber(
-        config("MQTT_BROKER"),
-        username=config("MQTT_USER"),
-        password=config("MQTT_PASSWORD"),
-    )
-    subscriber.connect_and_subscribe_to_topic(config("MQTT_TOPIC"))
-    subscriber.client.loop_forever()
-    subscriber.client.disconnect()
+    subscriber = initialize_mqtt_subscriber()
+
+    try:
+        subscriber.client.loop_forever()
+    except KeyboardInterrupt:
+        print("Disconnecting due to keyboard interrupt...")
+    finally:
+        subscriber.client.disconnect()

@@ -1,2 +1,4 @@
 .venv
 collected_data/**
+__pycache__
+.env

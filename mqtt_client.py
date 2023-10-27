@@ -52,6 +52,18 @@ class MQTTSubscriber:
         self.client.subscribe(topic)
 
 
+def initialize_mqtt_subscriber(
+    broker: str, topic: str, username: str, password: str
+) -> MQTTSubscriber:
+    """
+    Initialize and start the MQTT subscriber.
+    """
+    subscriber = MQTTSubscriber(broker, username=username, password=password)
+    subscriber.connect_and_subscribe_to_topic(topic)
+    print("MQTT subscriber connected.")
+    return subscriber
+
+
 if __name__ == "__main__":
     subscriber = MQTTSubscriber(
         config("MQTT_BROKER"),

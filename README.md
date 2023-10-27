@@ -6,7 +6,7 @@ This repository hosts the code for our AGV (Automated Guided Vehicles) Localizat
 
 Our strategy improves AGV localization through:
 
-1. **Location Identification:** We triangulate the AGV's position using SICK beacons, akin to GPS technology.
+1. **Location Identification:** We triangulate the AGV's position using UWB beacons, akin to GPS technology.
 2. **Orientation Awareness:** AGVs undertake a 'spin test,' employing LiDAR to match real-time environmental scans with internal maps, verifying their directional stance.
 
 ## Implementation

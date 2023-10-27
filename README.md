@@ -21,6 +21,14 @@ The codebase encompasses:
 
 Initiated as a collaborative venture at the SICK Hackathon.
 
+Contributors:
+
+- [Nickolai Tchesnokov](https://github.com/TNicko)
+- [Arkadiusz Podkowa](https://github.com/czuhajster)
+- [André Pinho](https://github.com/p1nho)
+- [Walter Niinimäki](https://github.com/WalterNi)
+- [Ayman Ali](https://github.com/aym183)
+
 ## Acknowledgments
 
 Special thanks to [SICK](https://www.sick.com/) for fostering innovation at their hackathon event.

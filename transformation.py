@@ -14,7 +14,7 @@ BEACON_COORDS = np.array(
 AGV_COORDS = np.array(
     [[5.94, 3.67], [9.31, 3.41], [5.02, 7.00], [5.008, 2.998]]
 )
-MODEL_PATH = "model/linear_regression_model.sav"
+MODEL_PATH = "model/model.sav"
 
 
 def build_model(

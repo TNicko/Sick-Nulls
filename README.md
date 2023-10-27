@@ -31,4 +31,4 @@ Contributors:
 
 ## Acknowledgments
 
-Special thanks to [SICK](https://www.sick.com/) for fostering innovation at their hackathon event.
+Special thanks to [SICK](https://www.sick.com/) for fostering innovation at their hackathon event and [Safelog](https://www.safelog.de/en/) for providing their AGV.

@@ -3,8 +3,8 @@ import json
 from decouple import config
 import time
 
-password = config("ERIKSON_PASSWORD")
-username = config("ERIKSON_USER")
+password = config("ERICSSON_PASSWORD")
+username = config("ERICSSON_USER")
 
 
 def get_data(ip):

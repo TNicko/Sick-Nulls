@@ -81,21 +81,6 @@ def main():
                 break
             sleep(5)
 
-    while True:
-        if len(subscriber.data) > 0:
-            string_data = subscriber.data.popleft()
-            json_data = json.loads(string_data)
-            agv_position = json_data["agvPosition"]
-            x = agv_position["x"]
-            y = agv_position["y"]
-            theta_rad = agv_position["theta"]
-            theta_deg = math.degrees(theta_rad)
-            xy1 = (x, y)
-            xy2 = sick_beacon_coordinates()
-
-            append_coordinates(*xy1, *xy2)
-        sleep(1)
-
 
 if __name__ == "__main__":
     main()
